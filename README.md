@@ -3,8 +3,8 @@ Simple and Intuitive Calculator for Android devices
 
 ![Calculator](https://github.com/Dannyang27/Kalculator/blob/master/pics/calculator.gif)
 
-Here is a slight demonstration of the app itself.
-Operation it can perform:
+Here is a slight demonstration of the app itself.  
+#Operation it can perform:#
 
 1. Addition
 2. Substraction
