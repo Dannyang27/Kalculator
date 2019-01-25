@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="result_background">#242834</color>
+    <color name="number_pads">#27334B</color>
+    <color name="operator_pads">#2A3852</color>
+    <color name="equal">#E33560</color>
+
+    <color name="result_number_color">#348BD2</color>
+    <color name="number_button_color">#B0BDC5</color>
+    <color name="divider_color">#2F333F</color>
+
+
+
+
+</resources>
