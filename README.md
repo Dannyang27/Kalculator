@@ -1,9 +1,9 @@
 # Kalculator The App
-Simple and Intuitive Calculator for Android
-
-![Calculator](https://github.com/Dannyang27/Kalculator/blob/master/pics/calculator.gif)
+Simple and Intuitive Calculator for Android. 
 
 Here is a slight demonstration of the app itself.  
+![Calculator](https://github.com/Dannyang27/Kalculator/blob/master/pics/calculator.gif)
+
 # Operation it can perform: #
 
 1. Addition
