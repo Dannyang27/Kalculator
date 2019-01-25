@@ -8,19 +8,18 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.math.RoundingMode
 
 class MainActivity : AppCompatActivity() {
-    val NULL_SAFE_VALUE : Double = 123456789.9
     var currentHistory : String = ""
     var currentResult : String = ""
     var currentOperator : String = ""
 
-    var firstOperand: Double = NULL_SAFE_VALUE
-    var secondOperand: Double = NULL_SAFE_VALUE
+    var firstOperand: Double? = null
+    var secondOperand: Double? = null
 
     var operatorFlag : Boolean = false
     var operandFlag : Boolean = false
     var calculated = false
 
-    var ans : Double = 0.0
+    var ans : Double? = null
 
     val operatorList = listOf("+/-", "%", "/", "x", "-", "+")
 
@@ -146,13 +145,16 @@ class MainActivity : AppCompatActivity() {
     fun putOperator(operator : String)
     {
         if(calculated){
-            firstOperand = currentResult.toDouble()
+
+            if(!currentResult.isEmpty())
+                firstOperand = currentResult.toDouble()
+
             currentOperator = operator
             currentHistory = "( ${firstOperand} ${currentOperator}"
             history.text = currentHistory
             clearResult()
         }
-        else if(firstOperand != NULL_SAFE_VALUE || result.text.length != 0){
+        else if(firstOperand != null || result.text.length != 0){
 
             if(!operatorFlag){
 
@@ -178,15 +180,15 @@ class MainActivity : AppCompatActivity() {
 
     fun doCalculateResult(){
 
-        if( firstOperand != NULL_SAFE_VALUE && result.text.any()){
+        if( firstOperand != null && result.text.any()){
             secondOperand = currentResult.toDouble()
             currentHistory = "${currentHistory} ${secondOperand} ) ="
             history.text = currentHistory
 
-            ans = calculate(currentOperator).toBigDecimal().setScale(2, RoundingMode.CEILING).toDouble()
+            ans = calculate(currentOperator)?.toBigDecimal()?.setScale(2, RoundingMode.CEILING)?.toDouble()
             currentResult = ans.toString()
 
-            if(ans == NULL_SAFE_VALUE){
+            if(ans == null){
                 result.text = "Error"
             }
 
@@ -194,21 +196,23 @@ class MainActivity : AppCompatActivity() {
 
             calculated = true
             operatorFlag = false
-            firstOperand = NULL_SAFE_VALUE
-            secondOperand = NULL_SAFE_VALUE
+            firstOperand = null
+            secondOperand = null
         }
     }
 
-    fun calculate(oper : String) : Double{
+    fun calculate(oper : String) : Double?{
 
-        var res = 0.0
+        var res : Double? = null
+
         when(oper){
-            "/" -> res = firstOperand / secondOperand
-            "x" -> res = firstOperand * secondOperand
-            "+" -> res = firstOperand + secondOperand
-            "-" -> res = firstOperand - secondOperand
-            else -> res = NULL_SAFE_VALUE
+            "/" -> res = firstOperand!!.div(secondOperand!!)
+            "x" -> res = firstOperand!! * secondOperand!!
+            "+" -> res = firstOperand!!.plus(secondOperand!!)
+            "-" -> res = firstOperand!!.minus(secondOperand!!)
+            else -> res = null
         }
+
         return res
     }
 
@@ -247,8 +251,8 @@ class MainActivity : AppCompatActivity() {
         currentResult = ""
         currentOperator = ""
 
-        firstOperand = NULL_SAFE_VALUE
-        secondOperand = NULL_SAFE_VALUE
+        firstOperand = null
+        secondOperand = null
 
         operatorFlag = false
         operandFlag = false
