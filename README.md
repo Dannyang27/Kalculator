@@ -2,6 +2,7 @@
 Simple and Intuitive Calculator for Android. 
 
 Here is a slight demonstration of the app itself.  
+
 ![Calculator](https://github.com/Dannyang27/Kalculator/blob/master/pics/calculator.gif)
 
 # Operations it can perform: #
