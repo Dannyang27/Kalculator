@@ -1,10 +1,10 @@
 # Kalculator The App
-Simple and Intuitive Calculator for Android devices
+Simple and Intuitive Calculator for Android
 
 ![Calculator](https://github.com/Dannyang27/Kalculator/blob/master/pics/calculator.gif)
 
 Here is a slight demonstration of the app itself.  
-#Operation it can perform:#
+# Operation it can perform: #
 
 1. Addition
 2. Substraction
@@ -14,3 +14,5 @@ Here is a slight demonstration of the app itself.
 6. Changing the sign of the operand
 7. Result is stored in ANS
 8. Clear
+
+Hope you enjoy using the calculator
