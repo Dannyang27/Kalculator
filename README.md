@@ -1,5 +1,5 @@
 # Kalculator The App
-Simple and Intuitive Calculator for Android. 
+Simple and Intuitive calculator for Android. 
 
 Here is a slight demonstration of the app itself.  
 
@@ -16,4 +16,4 @@ Here is a slight demonstration of the app itself.
 7. Result is stored in ANS
 8. Clearing action
 
-Hope you enjoy using the calculator
+Hope you enjoy using the Kalculator
