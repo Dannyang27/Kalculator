@@ -1,4 +1,4 @@
-package com.example.ledannyyang.calculatorapp
+package com.kalculator.ledannyyang.calculatorapp
 
 import org.junit.Test
 

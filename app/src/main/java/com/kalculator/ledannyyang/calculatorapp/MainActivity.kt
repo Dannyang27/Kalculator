@@ -1,4 +1,4 @@
-package com.example.ledannyyang.calculatorapp
+package com.kalculator.ledannyyang.calculatorapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     var operatorFlag : Boolean = false
     var operandFlag : Boolean = false
+    var divideByZeroFlag: Boolean = false
+
     var calculated = false
 
     var ans : Double? = null
@@ -26,9 +28,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-
-        // hideNavigationBar()
-
         setContentView(R.layout.activity_main)
 
         initNumberPad()
@@ -112,6 +111,10 @@ class MainActivity : AppCompatActivity() {
 
     fun putNumber(number : String){
 
+        if(divideByZeroFlag){
+            setDefault()
+        }
+
         for (oper in operatorList){
             if(currentHistory.contains(oper)){
                 operatorFlag = true
@@ -130,6 +133,9 @@ class MainActivity : AppCompatActivity() {
 
     fun putDot(dot: String){
 
+        if(divideByZeroFlag){
+            setDefault()
+        }
         if(!currentResult.contains(dot))
         {
             currentResult += dot
@@ -138,35 +144,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun doAnswer(){
-        currentResult = ans.toString()
-        result.text = currentResult
+        if(ans != null){
+            currentResult = ans.toString()
+            result.text = currentResult
+        }
     }
 
-    fun putOperator(operator : String)
-    {
-        if(calculated){
+    fun putOperator(operator : String){
 
-            if(!currentResult.isEmpty())
+        if(divideByZeroFlag){
+            setDefault()
+        }
+
+        if(calculated){
+            if(currentResult.isNotEmpty())
                 firstOperand = currentResult.toDouble()
 
             currentOperator = operator
-            currentHistory = "( ${firstOperand} ${currentOperator}"
+            currentHistory = "( $firstOperand $currentOperator"
             history.text = currentHistory
             clearResult()
-        }
-        else if(firstOperand != null || result.text.length != 0){
+        } else if(firstOperand != null || result.text.isNotEmpty()){
 
             if(!operatorFlag){
 
                 currentOperator = operator
 
-                if(currentHistory.length == 0){
+                if(currentHistory.isEmpty()){
                     firstOperand = currentResult.toDouble()
-                    currentHistory = "( ${firstOperand} ${currentOperator}"
+                    currentHistory = "( $firstOperand $currentOperator"
                     history.text = currentHistory
                 }
                 else{
-                    currentHistory = "${currentHistory.dropLast(2)} ${currentOperator}"
+                    currentHistory = "${currentHistory.dropLast(2)} $currentOperator"
                     history.text = currentHistory
                 }
                 clearResult()
@@ -175,21 +185,21 @@ class MainActivity : AppCompatActivity() {
         else{
             toast("Operands needed")
         }
-
     }
 
     fun doCalculateResult(){
 
         if( firstOperand != null && result.text.any()){
             secondOperand = currentResult.toDouble()
-            currentHistory = "${currentHistory} ${secondOperand} ) ="
+            currentHistory = "$currentHistory $secondOperand ) ="
             history.text = currentHistory
 
             ans = calculate(currentOperator)?.toBigDecimal()?.setScale(2, RoundingMode.CEILING)?.toDouble()
-            currentResult = ans.toString()
 
             if(ans == null){
-                result.text = "Error"
+                currentResult = "Cannot divide by zero"
+            }else{
+                currentResult = ans.toString()
             }
 
             result.text = currentResult
@@ -206,7 +216,14 @@ class MainActivity : AppCompatActivity() {
         var res : Double? = null
 
         when(oper){
-            "/" -> res = firstOperand!!.div(secondOperand!!)
+            "/" -> {
+                if(secondOperand == 0.0){
+                    result.text = "Division By Zero"
+                    divideByZeroFlag = true
+                }else{
+                    res = firstOperand!!.div(secondOperand!!)
+                }
+            }
             "x" -> res = firstOperand!! * secondOperand!!
             "+" -> res = firstOperand!!.plus(secondOperand!!)
             "-" -> res = firstOperand!!.minus(secondOperand!!)
@@ -218,6 +235,10 @@ class MainActivity : AppCompatActivity() {
 
     fun doPlusMinus(){
 
+        if(divideByZeroFlag){
+            setDefault()
+        }
+
         if(result.text.any()){
             var res : Double = result.text.toString().toDouble()
             currentResult = (0 - res).toString()
@@ -226,6 +247,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun doPercentage(){
+
+        if(divideByZeroFlag){
+            setDefault()
+        }
 
         if(result.text.any()){
             var res : Double = result.text.toString().toDouble()
@@ -250,6 +275,7 @@ class MainActivity : AppCompatActivity() {
         currentHistory = ""
         currentResult = ""
         currentOperator = ""
+        result.text = ""
 
         firstOperand = null
         secondOperand = null
@@ -257,21 +283,10 @@ class MainActivity : AppCompatActivity() {
         operatorFlag = false
         operandFlag = false
         calculated = false
+        divideByZeroFlag = false
     }
 
     fun toast(message: String){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-
-    fun hideNavigationBar(){
-                window.decorView.apply {
-            systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        }
     }
 }

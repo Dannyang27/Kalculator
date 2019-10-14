@@ -1,4 +1,4 @@
-package com.example.ledannyyang.calculatorapp
+package com.kalculator.ledannyyang.calculatorapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.example.ledannyyang.calculatorapp", appContext.packageName)
+        assertEquals("com.kalculator.ledannyyang.calculatorapp", appContext.packageName)
     }
 }
